@@ -1,0 +1,126 @@
+.listWrapper {
+    width: 70%;
+    margin: 4% auto auto auto;
+
+    @media only screen and (max-width: 1024px) {
+        width: 95%;
+        margin-bottom: 40px;
+        margin-top: 30px;
+    }
+}
+
+.listHeader {
+    background-color: #3167c5;
+    color: white;
+    padding: 15px 20px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    display: flex;
+
+    h2 {
+        position: relative;
+        margin: auto;
+        left: -20px;
+    }
+
+    i {
+        position: relative;
+        left: 0;
+        font-size: 30px;
+        line-height: 32px;
+    }
+}
+
+.listEl {
+    height: 213px;
+    overflow-y: scroll;
+    background-color: #f2f2f2;
+
+    @media only screen and (max-width: 1024px) {
+        overflow-x: auto;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        height: 244px;
+    }
+}
+
+table {
+    width: 98.9%;
+    overflow-x: auto;
+    table-layout: fixed;
+
+    @media only screen and (max-width: 1024px) {
+        width: 99.5%;
+        table-layout: unset;
+    }
+}
+
+table {
+    border-collapse: collapse;
+
+    i {
+        font-size: 20px;
+        color: red;
+
+        &:hover {
+            cursor: pointer;
+        }
+    }
+}
+
+th, td {
+    padding: 5px;
+    text-align: left;
+    border: 1px solid #ddd;
+    background-color: white;
+    word-wrap: break-word;
+}
+
+tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+th {
+    background-color: #4caf50;
+    color: white;
+}
+
+th:nth-of-type(7) {
+    width: 20px;
+}
+
+.btnWrapper {
+    width: 30%;
+    margin: auto;
+    padding: 20px;
+    text-align: center;
+
+    @media only screen and (max-width: 1440px) {
+        width: 51%;
+    }
+
+    @media only screen and (max-width: 1024px) {
+        width: 90%;
+    }
+
+    button {
+        border-radius: 8px;
+        border: 2px solid transparent;
+        padding: 10px 20px;
+        font-size: 16px;
+        font-weight: 500;
+        font-family: inherit;
+        color: white;
+        background-color: #3167c5;
+        cursor: pointer;
+        width: 47%;
+
+        &:hover {
+            border-color: #000;
+        }
+
+        &:nth-of-type(1) {
+            margin-right: 15px;
+        }
+    }
+}

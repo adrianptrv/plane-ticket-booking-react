@@ -1,0 +1,182 @@
+.thanks {
+    position: absolute;
+    background-color: #4caf50;
+    color: white;
+    top: 17%;
+    width: 25%;
+    left: 37%;
+    text-align: center;
+    border-radius: 10px;
+    padding: 0 25px;
+
+    @media only screen and (max-width: 1680px) {
+        width: 32%;
+        left: 32%;
+    }
+
+    @media only screen and (max-width: 1024px) {
+        width: 50%;
+        left: 23%;
+    }
+
+    @media only screen and (max-width: 800px) {
+        width: 55%;
+        left: 17%;
+    }
+}
+
+.formWrapper {
+    width: 45%;
+    margin: 4% auto auto auto;
+
+    @media only screen and (max-width: 1024px) {
+        width: 95%;
+        margin-top: 30px;
+    }
+}
+
+.formHeader {
+    background-color: #3167c5;
+    color: white;
+    padding: 15px 20px;
+    border-top-right-radius: 10px;
+    border-top-left-radius: 10px;
+    display: flex;
+
+    h2 {
+        margin: auto;
+
+        @media only screen and (max-width: 1024px) {
+            text-align: center;
+        }
+    }
+
+
+    i {
+        position: relative;
+        left: 0;
+        font-size: 30px;
+        line-height: 32px;
+    }
+}
+
+.formEl {
+    background-color: #f2f2f2;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 30px;
+    column-gap: 30px;
+    padding: 20px 20px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+
+    @media only screen and (max-width: 1440px) {
+        grid-template-columns: repeat(2, 46%);
+    }
+
+    @media only screen and (max-width: 1024px) {
+        display: block;
+    }
+
+    label {
+        display: block;
+        font-size: 17px;
+        font-weight: bold;
+        width: 65%;
+        margin-left: 10px;
+
+        @media only screen and (max-width: 1270px) {
+            width: 100%;
+        }
+    }
+
+    input,
+    select {
+        background: #fff;
+        border-radius: 8px;
+        font-family: "Ubuntu", sans-serif;
+        font-weight: 500;
+        font-style: normal;
+        font-size: 18px;
+        border: 2px solid transparent;
+        outline: none;
+        padding: 10px 15px;
+        color: #62626d;
+        width: 70%;
+
+        @media only screen and (max-width: 1024px) {
+            width: calc(100% - 35px);
+        }
+    }
+
+    input {
+        &:focus {
+            border: 2px solid #646cff;
+        }
+    }
+
+    select {
+        @media only screen and (max-width: 1270px) {
+            width: 85%;
+        }
+
+        @media only screen and (max-width: 1024px) {
+            width: 100%;
+            font-size: 12px;
+        }
+    }
+
+    .input-container:nth-of-type(n + 2) {
+        @media only screen and (max-width: 1024px) {
+            margin-top: 25px;
+        }
+    }
+
+    .input-container label {
+        padding-bottom: 5px;
+    }
+
+    .input-container:nth-of-type(n+5) input,
+    .input-container select {
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+    .error-message {
+        display: block;
+        color: red;
+        margin: 10px 0 0 10px;
+
+        i {
+            margin-right: 7px;
+            font-size: 20px;
+        }
+    }
+
+    .btnHolder {
+        text-align: center;
+        grid-column-start: 1;
+        grid-column-end: 3;
+
+        @media only screen and (max-width: 1024px) {
+            margin-top: 20px;
+        }
+
+        button {
+            border-radius: 8px;
+            border: 1px solid transparent;
+            padding: 10px 20px;
+            font-size: 16px;
+            font-weight: 500;
+            font-family: inherit;
+            background-color: #fff;
+            cursor: pointer;
+            width: 25%;
+
+            &:hover {
+                border-color: #646cff;
+            }
+        }
+    }
+}

@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlaneDeparture, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 function Lists({ airports, changePageNum, pageNum, sFetch, apiKey }) {
-
   const [lists, setLists] = useState([]);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);

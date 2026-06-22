@@ -1,11 +1,18 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from 'react';
 // Styles
-import "../styles/List.scss";
+import '../styles/List.scss';
 // Icons
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlaneDeparture, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlaneDeparture, faTrash } from '@fortawesome/free-solid-svg-icons';
 
-function Lists({ airports, changePageNum, pageNum, sFetch, apiKey }) {
+function Lists({
+  SUPABASE_FLIGHTS_URL,
+  SUPABASE_API_KEY,
+  airports,
+  changePageNum,
+  pageNum,
+  sFetch,
+}) {
   const [lists, setLists] = useState([]);
   const [loading, setLoading] = useState(false);
   const [hasMore, setHasMore] = useState(true);
@@ -14,24 +21,34 @@ function Lists({ airports, changePageNum, pageNum, sFetch, apiKey }) {
   const containerRef = useRef(null); // Reference to the container element
   const initialFetchDone = useRef(false); // Flag to track if the initial fetch has been done
 
+  const PageLimit = 5; // Number of records to fetch per page
+
   // Fetch data from the API
   const fetchData = async (pageNum) => {
     if (loading || !hasMore) return; // Prevent fetching if already loading or no more data
 
+    const PageOffset = pageNum * PageLimit; // Offset for pagination
+
     setLoading(true);
     try {
       const response = await fetch(
-        `https://interview.fio.de/core-frontend/api/bookings?pageIndex=${pageNum}&authToken=${apiKey}`
+        `${SUPABASE_FLIGHTS_URL}?select=*&limit=${PageLimit}&offset=${PageOffset}`,
+        {
+          headers: {
+            apikey: SUPABASE_API_KEY,
+            'Content-Type': 'application/json',
+          },
+        },
       );
       const result = await response.json();
 
-      if (result.list.length === 0) {
+      if (result.length === 0) {
         setHasMore(false); // No more data to load
       } else {
-        setLists((prevData) => [...prevData, ...result.list]);
+        setLists((prevData) => [...prevData, ...result]);
       }
     } catch (error) {
-      console.error("Error fetching data", error);
+      console.error('Error fetching data', error);
     } finally {
       setLoading(false);
     }
@@ -70,12 +87,12 @@ function Lists({ airports, changePageNum, pageNum, sFetch, apiKey }) {
   useEffect(() => {
     const container = containerRef.current;
     if (container) {
-      container.addEventListener("scroll", handleScroll); // Attach scroll event listener
+      container.addEventListener('scroll', handleScroll); // Attach scroll event listener
     }
     return () => {
       const container = containerRef.current;
       if (container) {
-        container.removeEventListener("scroll", handleScroll); // Cleanup scroll event listener
+        container.removeEventListener('scroll', handleScroll); // Cleanup scroll event listener
       }
     };
   }, [loading, hasMore]); // Reattach listener when loading or hasMore changes
@@ -93,8 +110,14 @@ function Lists({ airports, changePageNum, pageNum, sFetch, apiKey }) {
   // Delete booking function
   const handleRemove = async (id) => {
     await fetch(
-      `https://interview.fio.de/core-frontend/api/bookings/delete/${id}?authToken=${apiKey}`,
-      { method: "DELETE" }
+      `https://fvxhpzdteblymwappdmy.supabase.co/rest/v1/flights?id=eq.${id}`,
+      {
+        method: 'DELETE',
+        headers: {
+          apikey: SUPABASE_API_KEY,
+          Authorization: `Bearer ${SUPABASE_API_KEY}`,
+        },
+      },
     );
     setLists([]); // Reset the data
     setHasMore(true); // Reset the 'hasMore' flag
@@ -137,12 +160,12 @@ function Lists({ airports, changePageNum, pageNum, sFetch, apiKey }) {
             {lists &&
               lists.map((entry) => (
                 <tr key={entry.id}>
-                  <td>{entry.firstName}</td>
-                  <td>{entry.lastName}</td>
-                  <td>{checkAirport(entry.departureAirportId)}</td>
-                  <td>{checkAirport(entry.arrivalAirportId)}</td>
-                  <td>{entry.departureDate.substring(0, 10)}</td>
-                  <td>{entry.returnDate.substring(0, 10)}</td>
+                  <td>{entry.first_name}</td>
+                  <td>{entry.last_name}</td>
+                  <td>{checkAirport(entry.departure_airport)}</td>
+                  <td>{checkAirport(entry.arrival_airport)}</td>
+                  <td>{entry.departure_date.substring(0, 10)}</td>
+                  <td>{entry.arrival_date.substring(0, 10)}</td>
                   <td>
                     <i onClick={() => handleRemove(entry.id)}>
                       <FontAwesomeIcon icon={faTrash} />

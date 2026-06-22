@@ -1,22 +1,28 @@
-import { useState } from "react";
+import { useState } from 'react';
 // Style
-import "../styles/Form.scss";
+import '../styles/Form.scss';
 // Icons
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPenToSquare,
   faCircleExclamation,
-} from "@fortawesome/free-solid-svg-icons";
+} from '@fortawesome/free-solid-svg-icons';
 
-function Form({ airports, changePageNum, changeSFetch, apiKey }) {
+function Form({
+  SUPABASE_FLIGHTS_URL,
+  SUPABASE_API_KEY,
+  airports,
+  changePageNum,
+  changeSFetch,
+}) {
   // Form data variable
   const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    departureAirportId: "",
-    arrivalAirportId: "",
-    departureDate: "",
-    returnDate: "",
+    first_name: '',
+    last_name: '',
+    departure_airport: '',
+    arrival_airport: '',
+    departure_date: '',
+    arrival_date: '',
   });
 
   // Variable for storing errors with the input fields.
@@ -43,7 +49,7 @@ function Form({ airports, changePageNum, changeSFetch, apiKey }) {
       </option>
     ));
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     // Checks if there are any errors with the input fields
     const errorHolder = validateForm(formData);
@@ -52,28 +58,31 @@ function Form({ airports, changePageNum, changeSFetch, apiKey }) {
     // Coverting the input to JSON and sending it
     if (Object.keys(errorHolder).length === 0) {
       let holder = { ...formData };
-      holder.departureDate = new Date(holder.departureDate).toISOString();
-      holder.returnDate = new Date(holder.returnDate).toISOString();
-      fetch(
-        `https://interview.fio.de/core-frontend/api/bookings/create?authToken=${apiKey}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(holder),
-        }
-      );
+      holder.departure_date = new Date(holder.departure_date).toISOString();
+      holder.arrival_date = new Date(holder.arrival_date).toISOString();
+
+      const res = await fetch(SUPABASE_FLIGHTS_URL, {
+        method: 'POST',
+        headers: {
+          apikey: SUPABASE_API_KEY,
+          Authorization: `Bearer ${SUPABASE_API_KEY}`,
+          'Content-Type': 'application/json',
+          //   Prefer: "return=representation",
+        },
+        body: JSON.stringify(holder),
+      });
+
+      const errorText = await res.text();
       changePageNum(0);
       changeSFetch(true);
       // Resets form values back to empty
       setFormData({
-        firstName: "",
-        lastName: "",
-        departureAirportId: "",
-        arrivalAirportId: "",
-        departureDate: "",
-        returnDate: "",
+        first_name: '',
+        last_name: '',
+        departure_airport: '',
+        arrival_airport: '',
+        departure_date: '',
+        arrival_date: '',
       });
       // Showing the thank you message
       setThanksM(true);
@@ -86,38 +95,39 @@ function Form({ airports, changePageNum, changeSFetch, apiKey }) {
 
   // Checks if all of the input values are valid
   const validateForm = (data) => {
+    console.log(data);
     const errorsList = {};
 
-    if (!data.firstName.trim()) {
-      errorsList.firstName = "Please enter first name";
+    if (!data.first_name.trim()) {
+      errorsList.first_name = 'Please enter first name';
     }
 
-    if (/\d/.test(data.firstName)) {
-      errorsList.firstName = "First name cannot contain numbers";
+    if (/\d/.test(data.first_name)) {
+      errorsList.first_name = 'First name cannot contain numbers';
     }
 
-    if (!data.lastName.trim()) {
-      errorsList.lastName = "Please enter last name";
+    if (!data.last_name.trim()) {
+      errorsList.last_name = 'Please enter last name';
     }
 
-    if (/\d/.test(data.lastName)) {
-      errorsList.lastName = "Last name cannot contain numbers";
+    if (/\d/.test(data.last_name)) {
+      errorsList.last_name = 'Last name cannot contain numbers';
     }
 
-    if (data.departureAirportId === data.arrivalAirportId) {
-      errorsList.departure = "Cannot fly to the same destination";
+    if (data.departure_airport === data.arrival_airport) {
+      errorsList.departure = 'Cannot fly to the same destination';
     }
 
-    if (data.departureAirportId == "" || data.arrivalAirportId == "") {
-      errorsList.departure = "Please select departure and arrival airport";
+    if (data.departure_airport == '' || data.arrival_airport == '') {
+      errorsList.departure = 'Please select departure and arrival airport';
     }
 
-    if (data.departureDate > data.returnDate) {
-      errorsList.dates = "The departure date cannot be after the return date";
+    if (data.departure_date > data.arrival_date) {
+      errorsList.dates = 'The departure date cannot be after the return date';
     }
 
-    if (!data.departureDate.trim() || !data.returnDate.trim()) {
-      errorsList.dates = "Please select dates";
+    if (!data.departure_date.trim() || !data.arrival_date.trim()) {
+      errorsList.dates = 'Please select dates';
     }
 
     return errorsList;
@@ -141,17 +151,17 @@ function Form({ airports, changePageNum, changeSFetch, apiKey }) {
             <input
               type="text"
               id="firstName"
-              name="firstName"
-              value={formData.firstName}
+              name="first_name"
+              value={formData.first_name}
               onChange={handleChange}
             ></input>
             {/* Checking if there are any errors with the inputs. If there are, error element is displayed */}
-            {errors.firstName && (
+            {errors.first_name && (
               <span className="error-message">
                 <i>
                   <FontAwesomeIcon icon={faCircleExclamation} />
                 </i>
-                {errors.firstName}
+                {errors.first_name}
               </span>
             )}
           </div>
@@ -160,16 +170,16 @@ function Form({ airports, changePageNum, changeSFetch, apiKey }) {
             <label>Last name</label>
             <input
               type="text"
-              name="lastName"
-              value={formData.lastName}
+              name="last_name"
+              value={formData.last_name}
               onChange={handleChange}
             ></input>
-            {errors.lastName && (
+            {errors.last_name && (
               <span className="error-message">
                 <i>
                   <FontAwesomeIcon icon={faCircleExclamation} />
                 </i>
-                {errors.lastName}
+                {errors.last_name}
               </span>
             )}
           </div>
@@ -177,8 +187,8 @@ function Form({ airports, changePageNum, changeSFetch, apiKey }) {
           <div className="input-container select">
             <label>Departure airport</label>
             <select
-              name="departureAirportId"
-              value={formData.departureAirportId}
+              name="departure_airport"
+              value={formData.departure_airport}
               onChange={handleChange}
             >
               {/* Adding the options, which we prepared in the writeAirports */}
@@ -190,8 +200,8 @@ function Form({ airports, changePageNum, changeSFetch, apiKey }) {
           <div className="input-container select">
             <label>Arrival airport</label>
             <select
-              name="arrivalAirportId"
-              value={formData.arrivalAirportId}
+              name="arrival_airport"
+              value={formData.arrival_airport}
               onChange={handleChange}
             >
               <option disabled label="Arrival airport" />
@@ -211,9 +221,9 @@ function Form({ airports, changePageNum, changeSFetch, apiKey }) {
             <label>Departure date</label>
             <input
               type="datetime-local"
-              name="departureDate"
+              name="departure_date"
               min={today}
-              value={formData.departureDate}
+              value={formData.departure_date}
               onChange={handleChange}
             ></input>
           </div>
@@ -222,9 +232,9 @@ function Form({ airports, changePageNum, changeSFetch, apiKey }) {
             <label>Arrival date</label>
             <input
               type="datetime-local"
-              name="returnDate"
+              name="arrival_date"
               min={today}
-              value={formData.returnDate}
+              value={formData.arrival_date}
               onChange={handleChange}
             ></input>
             {errors.dates && (

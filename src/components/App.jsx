@@ -5,9 +5,9 @@ import List from './List.jsx';
 import '../styles/App.scss';
 
 function App() {
-  const SUPABASE_AIRPORTS_URL = import.meta.env.SUPABASE_AIRPORTS_URL;
-  const SUPABASE_FLIGHTS_URL = import.meta.env.SUPABASE_FLIGHTS_URL;
-  const SUPABASE_API_KEY = import.meta.env.SUPABASE_API_KEY;
+  const SUPABASE_AIRPORTS_URL = import.meta.env.VITE_SUPABASE_AIRPORTS_URL;
+  const SUPABASE_FLIGHTS_URL = import.meta.env.VITE_SUPABASE_FLIGHTS_URL;
+  const SUPABASE_API_KEY = import.meta.env.VITE_SUPABASE_API_KEY;
   
   console.log(SUPABASE_AIRPORTS_URL, SUPABASE_FLIGHTS_URL, SUPABASE_API_KEY);
 

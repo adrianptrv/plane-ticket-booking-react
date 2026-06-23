@@ -15,9 +15,9 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      SUPABASE_FLIGHTS_URL: ${{ secrets.SUPABASE_FLIGHTS_URL }}
-      SUPABASE_AIRPORTS_URL: ${{ secrets.SUPABASE_AIRPORTS_URL }}
-      SUPABASE_API_KEY: ${{ secrets.SUPABASE_API_KEY }}
+      VITE_SUPABASE_FLIGHTS_URL: ${{ secrets.SUPABASE_FLIGHTS_URL }}
+      VITE_SUPABASE_AIRPORTS_URL: ${{ secrets.SUPABASE_AIRPORTS_URL }}
+      VITE_SUPABASE_API_KEY: ${{ secrets.SUPABASE_API_KEY }}
 
     steps:
       - uses: actions/checkout@v4

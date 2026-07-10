@@ -12,8 +12,6 @@ function Form({
   SUPABASE_FLIGHTS_URL,
   SUPABASE_API_KEY,
   airports,
-  changePageNum,
-  changeSFetch,
 }) {
   // Form data variable
   const [formData, setFormData] = useState({
@@ -22,7 +20,7 @@ function Form({
     departure_airport: '',
     arrival_airport: '',
     departure_date: '',
-    arrival_date: '',
+    return_date: '',
   });
 
   // Variable for storing errors with the input fields.
@@ -59,7 +57,7 @@ function Form({
     if (Object.keys(errorHolder).length === 0) {
       let holder = { ...formData };
       holder.departure_date = new Date(holder.departure_date).toISOString();
-      holder.arrival_date = new Date(holder.arrival_date).toISOString();
+      holder.return_date = new Date(holder.return_date).toISOString();
 
       const res = await fetch(SUPABASE_FLIGHTS_URL, {
         method: 'POST',
@@ -73,8 +71,6 @@ function Form({
       });
 
       const errorText = await res.text();
-      changePageNum(0);
-      changeSFetch(true);
       // Resets form values back to empty
       setFormData({
         first_name: '',
@@ -82,7 +78,7 @@ function Form({
         departure_airport: '',
         arrival_airport: '',
         departure_date: '',
-        arrival_date: '',
+        return_date: '',
       });
       // Showing the thank you message
       setThanksM(true);
@@ -95,7 +91,6 @@ function Form({
 
   // Checks if all of the input values are valid
   const validateForm = (data) => {
-    console.log(data);
     const errorsList = {};
 
     if (!data.first_name.trim()) {
@@ -122,11 +117,11 @@ function Form({
       errorsList.departure = 'Please select departure and arrival airport';
     }
 
-    if (data.departure_date > data.arrival_date) {
+    if (data.departure_date > data.return_date) {
       errorsList.dates = 'The departure date cannot be after the return date';
     }
 
-    if (!data.departure_date.trim() || !data.arrival_date.trim()) {
+    if (!data.departure_date.trim() || !data.return_date.trim()) {
       errorsList.dates = 'Please select dates';
     }
 
@@ -229,12 +224,12 @@ function Form({
           </div>
 
           <div className="input-container">
-            <label>Arrival date</label>
+            <label>Return date</label>
             <input
               type="datetime-local"
-              name="arrival_date"
+              name="return_date"
               min={today}
-              value={formData.arrival_date}
+              value={formData.return_date}
               onChange={handleChange}
             ></input>
             {errors.dates && (

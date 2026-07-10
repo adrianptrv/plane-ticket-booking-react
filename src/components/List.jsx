@@ -152,7 +152,7 @@ function Lists({
               <th>Departure airport</th>
               <th>Arrival airport</th>
               <th>Departure date</th>
-              <th>Arrival date</th>
+              <th>Return date</th>
               <th></th>
             </tr>
 
@@ -165,7 +165,7 @@ function Lists({
                   <td>{checkAirport(entry.departure_airport)}</td>
                   <td>{checkAirport(entry.arrival_airport)}</td>
                   <td>{entry.departure_date.substring(0, 10)}</td>
-                  <td>{entry.arrival_date.substring(0, 10)}</td>
+                  <td>{entry.return_date.substring(0, 10)}</td>
                   <td>
                     <i onClick={() => handleRemove(entry.id)}>
                       <FontAwesomeIcon icon={faTrash} />

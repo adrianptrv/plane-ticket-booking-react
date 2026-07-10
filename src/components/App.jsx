@@ -8,29 +8,11 @@ function App() {
   const SUPABASE_AIRPORTS_URL = import.meta.env.VITE_SUPABASE_AIRPORTS_URL;
   const SUPABASE_FLIGHTS_URL = import.meta.env.VITE_SUPABASE_FLIGHTS_URL;
   const SUPABASE_API_KEY = import.meta.env.VITE_SUPABASE_API_KEY;
-  
-  console.log(SUPABASE_AIRPORTS_URL, SUPABASE_FLIGHTS_URL, SUPABASE_API_KEY);
-
-
-  // Here we hold the number which we will use in out GET bookings request. The initial value is 0 so we can get the first page of bookings when we load the page.
-  // We create the variable + function here in "App.jsx", so we can use it's value in both other components - "Form.jsx" and "List.jsx"
-  const [pageNum, setPageNum] = useState(0);
 
   // The variable which we will use for storing the airports fetch result
   const [airports, setAirports] = useState('');
 
   const sFetch = useRef(false);
-
-  // Change page number function
-  const changePageNum = (num) => {
-    setPageNum(num);
-  };
-
-  // Change the trigger for resetting the bookings fetch
-  const changeSFetch = (sta) => {
-    sFetch.current = sta;
-    console.log(sFetch);
-  };
 
   // Fetching the airports information from the API
   useEffect(() => {

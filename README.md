@@ -13,7 +13,7 @@ The application uses two database tables:
 
 One of the more interesting features I implemented was infinite scrolling, which was also a first for me. The flights table initially loads only five records. As the user scrolls, the next five records are fetched through additional API requests to the database, followed by the next five, and so on until all records have been loaded.
 
-Live Site URL on which you can check out the project: https://adrianptrv.github.io/Recipe-list-GSAP/
+Live Site URL on which you can check out the project: https://adrianptrv.github.io/flight-booking-react
 
 <table>
   <tr>
